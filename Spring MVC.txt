@@ -1,0 +1,68 @@
+分层开发:
+表示层(jsp+servlet)---业务层----数据访问--持久层（mybatis,hibernate）--数据库(oracle)
+表示层:springmvc,struts2
+
+一、理解MVC设计模式:
+ M(Model):表示模型层
+   作用:封装数据，进行业务处理，返回处理结果
+ V(View):表示视图层
+   展示数据,接收输入数据
+ C(Controll):表示控制器
+   接收用户端请求，将模型和视图联系在一起以实现用户主求的功能
+
+ Model1模式开发:Jsp+JavaBean
+ Model2模式开发:Jsp+servlet+JavaBean
+
+二、springmvc的工作原理
+用户-发请求->核心控制器-分发->用户控制器<--->模型层
+呈现视图显示<---ModelAndView对象--返回
+1.核心控制器DispatcherServlet
+  作用:1.拦载控制器请求
+       2.读取springmvc配置文件  
+       3.根据请求名称分发到相应的控制器
+
+三、springmvc框架
+ 1.使用springmvc的步骤:
+   1.1.导入springmvc相关的jar包
+   1.2.在web.xml中配置核心的控制器
+  <servlet>
+  <servlet-name>spring</servlet-name>
+  <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+ </servlet>
+  <servlet-mapping>
+  <servlet-name>spring</servlet-name>
+  <url-pattern>*.s</url-pattern>
+ </servlet-mapping>
+  1.3.创建控制器
+   新建类去实现org.springframework.web.servlet.mvc.Controller接口，并重写handleRequest方法即  可
+//控制器 ===servlet
+public class LoginController implements Controller {
+	//处理请求的方法  ==doget,dopost
+	public ModelAndView handleRequest(HttpServletRequest arg0,
+			HttpServletResponse arg1) throws Exception {
+	       System.out.println("进入控制器啦.......");
+	  return null;
+	}
+}
+   
+ 1.4.编定spring mvc的配置文件
+   注意:创建一个名称为:核心控制器名称-servlet.xml的配置文件,并放在WEB-INF目录中即可:
+
+  配置控制器请求:
+<bean name="/请求的路径" class="控制器的限定名"></bean>
+
+四、ModelAndView对象(模型视图对象)
+  1.创建ModelAndView对象
+   ModelAndView mav=new ModelAndView();
+   ModelAndView mav=new ModelAndView("页面路径");
+
+  2.将数据填充到模型
+   dmav.getModel().put("键",值);
+
+
+作业:
+  1.理解MVC设计模式
+  2.理解springmvc的工作原理
+  3.将登入重新实现
+  4.解决乱码+将springmvc配置文件放于src目录
+
